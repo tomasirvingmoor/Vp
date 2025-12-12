@@ -2,7 +2,7 @@
 
 public class PlayerHP : MonoBehaviour, IHP
 {
-    [SerializeField] private int _maxHP = 100;
+    private int _maxHP = 100;
     private int _currentHP;
 
     public int maxHP => _maxHP;
@@ -11,7 +11,17 @@ public class PlayerHP : MonoBehaviour, IHP
 
     private void Start()
     {
-        _currentHP = _maxHP;
+        var stats = GetComponent<StatManager>().PlayerStats;
+        if (stats != null)
+        {
+            _maxHP = stats.MaxHP;
+            _currentHP = _maxHP;
+            //Debug.Log("Player MaxHP set to: " + _maxHP);
+        }
+        else
+        {
+            Debug.LogWarning("PlayerStats not found on StatManager. Using default MaxHP.");
+        }
     }
     public void TakeDamage(int damage)
     {
@@ -20,7 +30,7 @@ public class PlayerHP : MonoBehaviour, IHP
         {
             Die();
         }
-        Debug.Log("Player took " + damage + " damage. Current HP: " + _currentHP);
+        //Debug.Log("Player took " + damage + " damage. Current HP: " + _currentHP);
     }
     private void Die()
     {

@@ -23,6 +23,7 @@ public class EventBus : MonoBehaviour
     public Action OnPlayerReady;
     public Action OnEnemyDeath;
     public Action<int> OnLevelUp;
-
-    
+    public Action<BuffType, float> BuffCharacter;
+    public Action UpdateCharacterStats;
+    public Action<GameObject> GiveGun;
 }

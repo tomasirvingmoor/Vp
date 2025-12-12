@@ -3,12 +3,12 @@
 [RequireComponent(typeof(Rigidbody2D))]
 public class Bullet : MonoBehaviour
 {
+    [SerializeField] private int _penetrationCount = 1;
     private int _damage =100;
     private float _speed;
     private Rigidbody2D _rb;
     private float _lifeTime = 5f;
     private Vector2 _direction;
-    private Vector2 _previosPosition;
 
     private void Awake()
     {
@@ -18,7 +18,6 @@ public class Bullet : MonoBehaviour
     private void Start()
     {
         Destroy(gameObject, _lifeTime);
-        _previosPosition = transform.position;  
     }
 
     public void Init(int damage, float speed, Vector2 dir)
@@ -35,9 +34,19 @@ public class Bullet : MonoBehaviour
         if (target != null)
         {
             target.TakeDamage(_damage);
-           //Debug.Log($"Bullet hit an enemy and dealt damage {_damage}.");
+            Penetration();
+            //Debug.Log($"Bullet hit an enemy and dealt damage {_damage}.");
         }
-        Destroy(gameObject);
+        if (collision.gameObject.CompareTag("Wall"))
+            Destroy(gameObject);
+    }
+
+    private void Penetration()
+    {
+        _penetrationCount--;
+
+        if (_penetrationCount < 0)
+            Destroy(gameObject);
     }
 
     private void FixedUpdate()
