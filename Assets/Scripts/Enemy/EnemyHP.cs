@@ -16,7 +16,7 @@ public class EnemyHP : MonoBehaviour, IHP
     }
     private void Die()
     {
-        Debug.Log("Enemy died");
+        //Debug.Log("Enemy died");
         EventBus.Instance.OnEnemyDeath?.Invoke();
         SpawnExpShard();
         Destroy(gameObject);
